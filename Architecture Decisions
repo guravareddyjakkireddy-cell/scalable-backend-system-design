@@ -1,0 +1,26 @@
+# Architecture Decisions
+
+## ADR 001: Use Load Balancer for Traffic Distribution
+**Decision:** Place a load balancer in front of application servers.  
+**Reason:** It distributes traffic, supports health checks, and improves availability.  
+**Impact:** Backend services can scale horizontally without changing client-facing URLs.
+
+## ADR 002: Keep Application Servers Stateless
+**Decision:** Do not store session state on application servers.  
+**Reason:** Stateless services are easier to scale and replace.  
+**Impact:** Session data should be stored in Redis or managed through secure tokens.
+
+## ADR 003: Use Redis for Caching
+**Decision:** Add Redis as a caching layer.  
+**Reason:** Redis reduces database load and improves response time for frequently requested data.  
+**Impact:** Cache expiration and invalidation rules must be documented.
+
+## ADR 004: Use Read Replicas for Database Scaling
+**Decision:** Use a primary database for writes and replicas for reads.  
+**Reason:** Many web applications have more reads than writes.  
+**Impact:** The application must handle possible replication delay.
+
+## ADR 005: Use Message Queue for Background Processing
+**Decision:** Add a queue for asynchronous tasks.  
+**Reason:** Email, reporting, payment callbacks, and notifications should not slow down user-facing APIs.  
+**Impact:** Retry strategy and dead-letter queue handling are required.
